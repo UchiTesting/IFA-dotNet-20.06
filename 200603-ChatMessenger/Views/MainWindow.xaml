@@ -1,0 +1,48 @@
+﻿<Window x:Class="_200603_ChatMessenger.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:_200603_ChatMessenger.Views"
+        mc:Ignorable="d"
+        Title="Chat Messenger" Height="450" Width="800"
+        Loaded="Window_Loaded">
+   <Grid>
+      <Grid.RowDefinitions>
+         <RowDefinition Height="30" />
+         <RowDefinition Height="*" />
+      </Grid.RowDefinitions>
+      <ToolBar Grid.Row="0">
+         <Button Click="Button_Click">Connect</Button>
+         <Button>Disconnect</Button>
+         <Separator></Separator>
+         <Label Content="Username:" />
+         <Label x:Name="LblUsername" Content="{Binding Chat.CurrentUser}" />
+      </ToolBar>
+      <Grid Grid.Row="1">
+         <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="125" />
+            <ColumnDefinition Width="*" />
+         </Grid.ColumnDefinitions>
+         <Grid.RowDefinitions>
+            <RowDefinition Height="*" />
+            <RowDefinition Height="25" />
+         </Grid.RowDefinitions>
+         <ListView x:Name="LvUsers" Grid.Column="0" Grid.Row="0" ItemsSource="{Binding Chat.ConnectedUsers}"></ListView>
+         <!--<TextBox x:Name="TbxChatContent" Grid.Column="1" Grid.Row="0" TextWrapping="Wrap" VerticalScrollBarVisibility="Auto" Text="{Binding Chat.Messages, Mode=OneWay}"/>-->
+         <ListView x:Name="TbxChatContent" Grid.Column="1" Grid.Row="0" ItemsSource="{Binding Chat.Msgs}">
+            <ListView.ItemTemplate>
+            <DataTemplate>
+               <TextBox TextWrapping="Wrap" >{Binding}</TextBox>
+            </DataTemplate>
+            </ListView.ItemTemplate>
+         </ListView>
+         <TextBox x:Name="TbxMessageInput" Grid.Column="1" Grid.Row="1"  Background="#FFFFAA" TextChanged="TbxMessageInput_TextChanged">
+            <TextBox.Text>
+               <Binding UpdateSourceTrigger="PropertyChanged" Path="Chat.CurrentMessage"></Binding>
+            </TextBox.Text>
+         </TextBox>
+         <Button x:Name="BtnSend" Content="Send" Grid.Column="0" Grid.Row="1" IsEnabled="False" Click="BtnSend_Click"/>
+      </Grid>
+   </Grid>
+</Window>
